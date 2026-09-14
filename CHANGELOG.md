@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.1.4 (2026-09-13)
+
+v0.1.4 — moved to a dedicated repository (https://github.com/dkaleganov/mercury-multiorg-mcp) with full history; metadata, links and docs only; no runtime changes
+
+Server and keepalive code are identical to 0.1.3.
+
+- Version 0.1.4.
+- Tag rename for earlier releases: 0.1.0 through 0.1.3 were tagged
+  `mercury-v0.1.0` … `mercury-v0.1.3` in the personal-ai-systems monorepo
+  and are tagged `v0.1.0` … `v0.1.3` here. The history was rewritten to
+  this repository's layout, so commit SHAs differ from the monorepo's; pin
+  SHAs from this repository. The entries below keep the tag names as they
+  were released. Release tags are `vX.Y.Z` from now on.
+- `pyproject.toml` `[project.urls]`: Homepage, Source, and Issues point at
+  this repository; Documentation and Changelog at tag `v0.1.4`.
+- `server.json`: version 0.1.4; `repository` is this repository, with no
+  `subfolder`.
+- README: every repository link at tag `v0.1.4`; install and every client
+  snippet use `mercury-multiorg-mcp@0.1.4`; the clone and pinned-commit
+  forms use this repository with no `#subdirectory=`; the hygiene note no
+  longer refers to the monorepo, and a repository-history note records the
+  move and the tag rename.
+- docs/keepalive.md: the pinned-commit install uses this repository.
+- CLAUDE.md and AGENTS.md: standalone-repository framing, a decision note
+  for the move, and gitleaks run from this repository's root.
+- `.gitleaks.toml` at the repository root, identical to the monorepo's
+  (default rules plus the `mercury-api-token` rule).
+- Tests: version, URL, and snippet pins follow the new links; no test reads
+  a file outside this repository; the gitleaks self-tests use
+  `./.gitleaks.toml` and run instead of skipping;
+  `tests/test_standalone_v014.py` asserts that README.md, docs/,
+  `pyproject.toml`, and `server.json` name the monorepo only inside the
+  README repository-history note.
+
 ## 0.1.3 (2026-09-13)
 
 v0.1.3 — packaging for PyPI and the official MCP Registry (no runtime

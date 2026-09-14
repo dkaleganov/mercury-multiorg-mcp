@@ -10,13 +10,13 @@ tokens are single-organization per connection; this server holds one
 read-only token per org and routes every tool call by an explicit `entity`
 key.
 
-Version 0.1.3 (see [CHANGELOG.md](https://github.com/dkaleganov/personal-ai-systems/blob/mercury-v0.1.3/mercury-multiorg-mcp/CHANGELOG.md)). The maintainer tags
-releases as `mercury-vX.Y.Z` on the monorepo; find the commit to pin with
-`git ls-remote --tags https://github.com/dkaleganov/personal-ai-systems 'mercury-v0.1.3^{}'`.
+Version 0.1.4 (see [CHANGELOG.md](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/CHANGELOG.md)). The maintainer tags
+releases as `vX.Y.Z`; find the commit to pin with
+`git ls-remote --tags https://github.com/dkaleganov/mercury-multiorg-mcp 'v0.1.4^{}'`.
 The complete tool reference with every returned field is in
-[docs/tools.md](https://github.com/dkaleganov/personal-ai-systems/blob/mercury-v0.1.3/mercury-multiorg-mcp/docs/tools.md); design notes and the build history are in
+[docs/tools.md](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/docs/tools.md); design notes and the build history are in
 the project brief on GitHub,
-[CLAUDE.md](https://github.com/dkaleganov/personal-ai-systems/blob/mercury-v0.1.3/mercury-multiorg-mcp/CLAUDE.md)
+[CLAUDE.md](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/CLAUDE.md)
 (not shipped in the sdist).
 
 ## Security model
@@ -90,28 +90,36 @@ The rest of the model:
   Mercury has no 1099 filing endpoint; filing happens in each org's
   dashboard.
 
-**Hygiene.** This package lives in a public monorepo. Tracked files,
+**Hygiene.** This package lives in a public repository. Tracked files,
 fixtures, and commit messages carry no tokens, account numbers, or
 financial identifiers, with two deliberate exceptions. First, the
-maintainer's own name appears in the package `authors` metadata and the
-monorepo README (approved by the repository owner); business and personal
-names of anyone else do not appear. Second, a history note: the first
-Phase 1 commit's fixtures used a real, public ABA routing number as sample
-data; it was replaced with an obviously fake value in the next commit, so
-it is absent from every tagged file tree but remains in their ancestry. It
-identifies a bank, not an account, and the history was deliberately not
-rewritten. This release passed a full-history gitleaks scan.
+maintainer's own name appears in the package `authors` metadata (approved
+by the repository owner); business and personal names of anyone else do
+not appear. Second, a history note: the first Phase 1 commit's fixtures
+used a real, public ABA routing number as sample data; it was replaced
+with an obviously fake value in the next commit, so it is absent from
+every tagged file tree but remains in their ancestry. It identifies a
+bank, not an account, and the history was deliberately not rewritten. This release passed a full-history gitleaks scan.
+
+**Repository history.** This package was developed in the
+[personal-ai-systems](https://github.com/dkaleganov/personal-ai-systems)
+monorepo through v0.1.3 and moved to this repository at v0.1.4 with its
+history preserved (the same commits, rewritten to this repository's
+layout, so their SHAs differ from the monorepo's). Releases up to 0.1.3
+were tagged `mercury-v0.1.x` there and are tagged `v0.1.x` here; release
+tags are `vX.Y.Z` from now on. Both hygiene exceptions above apply to this
+history unchanged.
 
 ## Install
 
 From PyPI, running the pinned release with `uvx` (no clone needed):
 
 ```bash
-uvx mercury-multiorg-mcp@0.1.3 --entities /private/path/entities.yaml
+uvx mercury-multiorg-mcp@0.1.4 --entities /private/path/entities.yaml
 ```
 
 `uvx <package>@<version>` runs exactly that release in an isolated, cached
-environment. `pip install 'mercury-multiorg-mcp==0.1.3'` also works and puts
+environment. `pip install 'mercury-multiorg-mcp==0.1.4'` also works and puts
 `mercury-multiorg-mcp` and `mercury-multiorg-mcp-keepalive` on your `PATH`.
 
 Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/) (for `uvx`).
@@ -121,17 +129,17 @@ Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/) (for `uvx`).
 From a clone:
 
 ```bash
-git clone https://github.com/dkaleganov/personal-ai-systems.git   # or git@github.com:dkaleganov/personal-ai-systems.git
-cd personal-ai-systems/mercury-multiorg-mcp
+git clone https://github.com/dkaleganov/mercury-multiorg-mcp.git   # or git@github.com:dkaleganov/mercury-multiorg-mcp.git
+cd mercury-multiorg-mcp
 uv sync
 uv run mercury-multiorg-mcp --entities /private/path/entities.yaml
 ```
 
-Or pin a full commit SHA with `uvx` (pin a SHA, not a tag: `@tag` +
-`#subdirectory=` has had resolver bugs in uv, and SHAs are cache-safe):
+Or pin a full commit SHA with `uvx` (pin a SHA, not a tag: a full SHA is
+immutable and cache-safe, while a tag can be moved):
 
 ```bash
-uvx --from 'git+https://github.com/dkaleganov/personal-ai-systems@<FULL_COMMIT_SHA>#subdirectory=mercury-multiorg-mcp' \
+uvx --from 'git+https://github.com/dkaleganov/mercury-multiorg-mcp@<FULL_COMMIT_SHA>' \
   mercury-multiorg-mcp --entities /private/path/entities.yaml
 ```
 
@@ -139,11 +147,11 @@ uvx --from 'git+https://github.com/dkaleganov/personal-ai-systems@<FULL_COMMIT_S
 
 1. In each Mercury org: org switcher → All Settings → Tokens → create a
    **Read Only** token (no IP allowlist required).
-2. Copy [`entities.example.yaml`](https://github.com/dkaleganov/personal-ai-systems/blob/mercury-v0.1.3/mercury-multiorg-mcp/entities.example.yaml) to a private location outside this repo and
+2. Copy [`entities.example.yaml`](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/entities.example.yaml) to a private location outside this repo and
    list your orgs (`key`, `display_name`, `token_env`; the env var name must
    start with `MERCURY_TOKEN_`).
 3. Export one env var per org, named as in the registry, in the environment
-   that launches the server ([`.env.example`](https://github.com/dkaleganov/personal-ai-systems/blob/mercury-v0.1.3/mercury-multiorg-mcp/.env.example) shows the names). Configuration
+   that launches the server ([`.env.example`](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/.env.example) shows the names). Configuration
    is read from process environment variables only; **no `.env` file is
    read unless you pass `--env-file <path>`**, so nothing is picked up by
    accident from the repo, your home directory, or a `uvx` cache.
@@ -171,7 +179,7 @@ is reserved for the MCP protocol.
 Mercury deletes an API token after 45 days of inactivity (the token
 inactivity clock) and separately downgrades permissions unused for 45 days.
 Run `mercury-multiorg-mcp-keepalive` on a schedule so the inactivity clock
-never expires; see [docs/keepalive.md](https://github.com/dkaleganov/personal-ai-systems/blob/mercury-v0.1.3/mercury-multiorg-mcp/docs/keepalive.md) for cron and
+never expires; see [docs/keepalive.md](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/docs/keepalive.md) for cron and
 launchd snippets.
 
 ## Works with any MCP client
@@ -184,12 +192,12 @@ or SSE. The command and arguments are the same in every client:
 
 ```text
 command: uvx
-args:    mercury-multiorg-mcp@0.1.3 --entities /private/path/entities.yaml
+args:    mercury-multiorg-mcp@0.1.4 --entities /private/path/entities.yaml
 optional extra arg: --allow-documents   (registers the two unredacted PDF tools)
 ```
 
 To run a pinned commit instead of the PyPI release, replace the first
-argument with `--from`, `git+https://github.com/dkaleganov/personal-ai-systems@<FULL_COMMIT_SHA>#subdirectory=mercury-multiorg-mcp`, `mercury-multiorg-mcp`
+argument with `--from`, `git+https://github.com/dkaleganov/mercury-multiorg-mcp@<FULL_COMMIT_SHA>`, `mercury-multiorg-mcp`
 (see "From source / pinned commit").
 
 Tokens reach the server as environment variables named in your registry.
@@ -215,7 +223,7 @@ credentials (so `list_accounts` returns a clean per-entity error).
     "mercury-multiorg": {
       "command": "uvx",
       "args": [
-        "mercury-multiorg-mcp@0.1.3",
+        "mercury-multiorg-mcp@0.1.4",
         "--entities",
         "/private/path/entities.yaml"
       ],
@@ -238,7 +246,7 @@ does not depend on client-specific placeholder expansion:
     "mercury-multiorg": {
       "command": "uvx",
       "args": [
-        "mercury-multiorg-mcp@0.1.3",
+        "mercury-multiorg-mcp@0.1.4",
         "--entities",
         "/private/path/entities.yaml",
         "--env-file",
@@ -255,7 +263,7 @@ does not depend on client-specific placeholder expansion:
 [mcp_servers.mercury-multiorg]
 command = "uvx"
 args = [
-  "mercury-multiorg-mcp@0.1.3",
+  "mercury-multiorg-mcp@0.1.4",
   "--entities", "/private/path/entities.yaml",
   "--env-file", "/private/path/mercury.env",
 ]
@@ -277,7 +285,7 @@ client's documentation says it expands environment placeholders.
     "mercury-multiorg": {
       "command": "uvx",
       "args": [
-        "mercury-multiorg-mcp@0.1.3",
+        "mercury-multiorg-mcp@0.1.4",
         "--entities",
         "/private/path/entities.yaml",
         "--env-file",
@@ -300,7 +308,7 @@ VS Code uses a `servers` map (not `mcpServers`) and an explicit
       "type": "stdio",
       "command": "uvx",
       "args": [
-        "mercury-multiorg-mcp@0.1.3",
+        "mercury-multiorg-mcp@0.1.4",
         "--entities", "/private/path/entities.yaml",
         "--env-file", "/private/path/mercury.env"
       ]
@@ -317,7 +325,7 @@ VS Code uses a `servers` map (not `mcpServers`) and an explicit
     "mercury-multiorg": {
       "command": "uvx",
       "args": [
-        "mercury-multiorg-mcp@0.1.3",
+        "mercury-multiorg-mcp@0.1.4",
         "--entities",
         "/private/path/entities.yaml",
         "--env-file",
@@ -344,7 +352,7 @@ require no entity argument. The seven tools with a `limit` argument return
 `count` and `truncated`. Full-list tools have no public limit. Paginated
 results also expose duplicate diagnostics (`duplicates_dropped`: identical
 rows the walk dropped). Full field-by-field reference:
-[docs/tools.md](https://github.com/dkaleganov/personal-ai-systems/blob/mercury-v0.1.3/mercury-multiorg-mcp/docs/tools.md).
+[docs/tools.md](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/docs/tools.md).
 
 | Tool | Arguments | Returns |
 | --- | --- | --- |
@@ -561,7 +569,7 @@ Download URLs are never returned.
 ## Keepalive
 
 ```bash
-uvx --from 'mercury-multiorg-mcp==0.1.3' mercury-multiorg-mcp-keepalive --entities /private/path/entities.yaml
+uvx --from 'mercury-multiorg-mcp==0.1.4' mercury-multiorg-mcp-keepalive --entities /private/path/entities.yaml
 ```
 
 The keepalive executable is not named after the package, so `uvx` needs
@@ -573,7 +581,7 @@ One authenticated `GET /accounts` per configured entity, one line each
 or no entity has a token, exit 2 on a configuration error. Same host rules
 as the server (`--allow-custom-api-base` for anything but production,
 sandbox, or loopback). Details, cadence, and cron / launchd snippets in
-[docs/keepalive.md](https://github.com/dkaleganov/personal-ai-systems/blob/mercury-v0.1.3/mercury-multiorg-mcp/docs/keepalive.md).
+[docs/keepalive.md](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/docs/keepalive.md).
 
 ## Develop
 
@@ -589,4 +597,4 @@ exception, a public bank routing number).
 
 ## License
 
-MIT (the monorepo `LICENSE` applies; a copy, [LICENSE](https://github.com/dkaleganov/personal-ai-systems/blob/mercury-v0.1.3/mercury-multiorg-mcp/LICENSE), ships in the package).
+MIT; see [LICENSE](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/LICENSE), which also ships in the package.

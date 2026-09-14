@@ -26,7 +26,7 @@ uv run mercury-multiorg-mcp-keepalive --entities /private/path/entities.yaml
 uv run python -m mercury_multiorg_mcp.keepalive --entities /private/path/entities.yaml
 
 # pinned install (replace the SHA)
-uvx --from 'git+https://github.com/dkaleganov/personal-ai-systems@<FULL_COMMIT_SHA>#subdirectory=mercury-multiorg-mcp' \
+uvx --from 'git+https://github.com/dkaleganov/mercury-multiorg-mcp@<FULL_COMMIT_SHA>' \
   mercury-multiorg-mcp-keepalive --entities /private/path/entities.yaml
 ```
 

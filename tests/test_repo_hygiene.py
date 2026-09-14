@@ -1,8 +1,8 @@
 """Repository hygiene: the cron snippet is crontab-valid and the gitleaks config catches a Mercury token.
 
-The gitleaks tests read the monorepo-root ``.gitleaks.toml``. On a standalone
-checkout of just this package (an sdist, say) that file is absent and those
-tests skip; everything else here is self-contained.
+The gitleaks tests read this repository's root ``.gitleaks.toml``. It is
+tracked in git but not shipped in the sdist, so in an unpacked sdist those
+tests skip; in a git checkout the file must exist and they run.
 """
 
 import json
@@ -17,16 +17,16 @@ import pytest
 
 from .conftest import FAKE_TOKEN_MAIN, PACKAGE_ROOT
 
-MONOREPO_ROOT = PACKAGE_ROOT.parent
-GITLEAKS_CONFIG = MONOREPO_ROOT / ".gitleaks.toml"
+GITLEAKS_CONFIG = PACKAGE_ROOT / ".gitleaks.toml"
 KEEPALIVE_DOC = PACKAGE_ROOT / "docs" / "keepalive.md"
 
 # five schedule fields, then a command that starts with a slash (absolute path)
 CRON_ENTRY = re.compile(r"^(\S+\s+){5}/\S.*$")
 
 needs_root_config = pytest.mark.skipif(
-    not GITLEAKS_CONFIG.is_file(), reason="monorepo-root .gitleaks.toml not present (standalone package checkout)"
+    not GITLEAKS_CONFIG.is_file(), reason=".gitleaks.toml not present (unpacked sdist; the config is tracked in git only)"
 )
+needs_checkout = pytest.mark.skipif(not (PACKAGE_ROOT / "CLAUDE.md").is_file(), reason="CLAUDE.md not present (sdist)")
 needs_gitleaks = pytest.mark.skipif(shutil.which("gitleaks") is None, reason="gitleaks binary not installed")
 
 
@@ -83,6 +83,12 @@ def test_this_module_compiles_to_no_token_shaped_constant():
                 walk(const)
 
     walk(code)
+
+
+@needs_checkout
+def test_gitleaks_config_is_present_in_a_git_checkout():
+    """v0.1.4: the config lives in this repository, so a checkout can never silently skip the gitleaks tests."""
+    assert GITLEAKS_CONFIG.is_file()
 
 
 @needs_root_config

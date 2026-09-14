@@ -10,15 +10,16 @@ explicit entity key and identifies it in its successful result
 (`list_entities` and `server_info` take no entity argument), so one AI
 session can see a whole multi-entity setup.
 
-This package lives in a public monorepo. It is public from its first
-commit. No personal names, real company names, EINs, account numbers,
+This package lives in its own public repository,
+https://github.com/dkaleganov/mercury-multiorg-mcp. It is public from its
+first commit. No personal names, real company names, EINs, account numbers,
 tokens, or financial identifiers may appear in tracked files, test
 fixtures, comments, or commit messages at any point in history. One
 deliberate exception, decided by the repo owner: the maintainer's own
-name may appear in package `authors` metadata (pyproject) and the monorepo
-README. Business names, family names, and every other identifier remain
-forbidden. Synthetic fixtures must not reuse real-world identifiers even
-when public (e.g. no real ABA routing numbers; use obviously fake values).
+name may appear in package `authors` metadata (pyproject). Business names,
+family names, and every other identifier remain forbidden. Synthetic
+fixtures must not reuse real-world identifiers even when public (e.g. no
+real ABA routing numbers; use obviously fake values).
 
 ## Ground rules (every session in this folder)
 
@@ -39,7 +40,7 @@ when public (e.g. no real ABA routing numbers; use obviously fake values).
    fetch the docs listed under API notes; note any discrepancy in a code
    comment.
 6. gitleaks on the full history before declaring any phase done, run from
-   the monorepo root so the root `.gitleaks.toml` applies (default rules
+   this repository's root so its `.gitleaks.toml` applies (default rules
    plus the `mercury-api-token` rule for `secret-token:mercury_production_…`
    / `…_sandbox_…`): `gitleaks git --no-banner --redact .`
 
@@ -374,20 +375,25 @@ modelcontextprotocol.io and the python-sdk README on GitHub; where they
 contradict this file, they win, and the discrepancy gets a code comment. Do
 not use the third-party standalone `fastmcp` package — official SDK only.
 
-## Monorepo packaging rules
+## Packaging rules
 
-- This folder is a self-contained package: its own `pyproject.toml`
+- This repository is one self-contained package: its own `pyproject.toml`
   (hatchling, src layout, `[project.scripts]` console entry
   `mercury-multiorg-mcp`), tests, and docs. No path dependencies on
-  sibling folders, ever.
-- Install/run from a clone or via
-  `uvx --from 'git+https://github.com/dkaleganov/personal-ai-systems@<FULL_COMMIT_SHA>#subdirectory=mercury-multiorg-mcp' mercury-multiorg-mcp`.
-  Docs must tell users to pin a full commit SHA (`@tag` +
-  `#subdirectory=` has had resolver bugs in uv, and SHAs are
-  cache-safe).
-- Release tags are repo-wide and prefixed: `mercury-v0.1.0`.
-- Git history note: this package's commits share the monorepo history.
-  Commit messages follow the same anonymization rules as code.
+  anything outside this repository, ever, and no test reads a file outside
+  it.
+- Install/run from PyPI (`uvx mercury-multiorg-mcp@<version>`), from a
+  clone, or via
+  `uvx --from 'git+https://github.com/dkaleganov/mercury-multiorg-mcp@<FULL_COMMIT_SHA>' mercury-multiorg-mcp`.
+  Docs must tell users to pin a full commit SHA for git installs (SHAs are
+  immutable and cache-safe; a tag can be moved).
+- Release tags are `vX.Y.Z` (for example `v0.1.4`). Releases 0.1.0 through
+  0.1.3 were tagged `mercury-v0.1.x` in the monorepo they came from and
+  are tagged `v0.1.x` here; the records below keep the names as released.
+- Git history note: the history through v0.1.3 was carried over from that
+  monorepo, rewritten to this repository's layout (so commit SHAs differ
+  from the monorepo's). Commit messages follow the same anonymization rules
+  as code.
 
 ## Phases (stop for review after each)
 
@@ -413,9 +419,9 @@ not use the third-party standalone `fastmcp` package — official SDK only.
    pyproject, and the deprecated License classifier dropped (verified with
    `uv build`: METADATA carries `License-File: LICENSE` and both artifacts
    contain the file); gitleaks scan across full history. The maintainer
-   tags `mercury-v0.1.0` on the monorepo after review. Acceptance: gitleaks
-   is clean and a fresh clone installs and passes tests from the README
-   alone.
+   tags `mercury-v0.1.0` on the monorepo after review (tagged `v0.1.0`
+   here since the move). Acceptance: gitleaks is clean and a fresh clone
+   installs and passes tests from the README alone.
 
 5. v0.1.1 (built 2026-09-13): fixes from an independent external review
    of 0.1.0 (six majors M1-M6, four minors m1-m4, hardening). See
@@ -437,7 +443,7 @@ not use the third-party standalone `fastmcp` package — official SDK only.
    YAML parse errors are one line (`_yaml_problem`); the PDF envelope
    check ignores trailing PDF whitespace and is documented as an envelope
    check. Tests in `tests/test_external_review_v011.py`. AGENTS.md at the
-   package root points agents that read that file here.
+   repository root points agents that read that file here.
 6. v0.1.2 (built 2026-09-13): documentation accuracy and schema metadata
    from the third external review (published-tag validation of
    mercury-v0.1.1; no runtime changes). Reviewer wording applied
@@ -448,10 +454,18 @@ not use the third-party standalone `fastmcp` package — official SDK only.
    `json_schema_extra` so server acceptance is unchanged (the tool
    docstring's classification table now lives in docs/tools.md and
    README.md). Tests in `tests/test_external_review_v012.py`.
+7. v0.1.4 (2026-09-13): moved to a dedicated repository,
+   https://github.com/dkaleganov/mercury-multiorg-mcp, with full history.
+   Decision: until v0.1.3 the package lived in the `personal-ai-systems`
+   monorepo; it moved to a dedicated repository at v0.1.4 so the server
+   can have its own listings (Glama, awesome lists) and a focused home.
+   Metadata, links, docs, and tests only; no runtime changes. The root
+   `.gitleaks.toml` is a copy of the monorepo's. Tests in
+   `tests/test_standalone_v014.py`.
 
 ## Definition of done for public
 
-A stranger can clone the monorepo, configure fake entities, and run
+A stranger can clone this repository, configure fake entities, and run
 everything without learning anything about the author's businesses.
 History contains zero real identifiers. gitleaks passes on the full
 history.

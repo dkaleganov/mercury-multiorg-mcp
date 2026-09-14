@@ -542,7 +542,6 @@ def test_docs_corrections_and_client_neutral_wording():
     brief = flat(ROOT / "CLAUDE.md")
     changelog = flat(ROOT / "CHANGELOG.md")
     agents = flat(ROOT / "AGENTS.md")
-    root_readme = flat(ROOT.parent / "README.md")
     assert "two commits later" not in readme and "two commits later" not in changelog and "in the next commit" in readme
     assert "8 or more characters" in readme
     assert "Works with any MCP client" in readme
@@ -556,7 +555,8 @@ def test_docs_corrections_and_client_neutral_wording():
     assert "invoice id you pass appears" in tools and "neither the slug nor the id appears" not in tools and "neither the slug nor the id appears" not in brief
     assert "argument-validation" in readme.lower() or "argument validation" in readme.lower()
     assert "CLAUDE.md" in agents and "AGENTS.md" in brief
-    assert "PDF" in root_readme and "unredacted" in root_readme
+    # v0.1.4: the masking claim is qualified for opt-in PDFs in this repository's README (no file outside the repo is read)
+    assert "**Verbatim and unredacted**, opt-in only" in readme and "PDF" in readme
     # server text stays client-neutral
     for text in (server_mod.INSTRUCTIONS, inspect.getsource(server_mod)):
         assert "Claude" not in text and "Anthropic" not in text

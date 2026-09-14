@@ -1,7 +1,7 @@
 # AGENTS.md
 
 The build brief and history are in
-[CLAUDE.md](https://github.com/dkaleganov/personal-ai-systems/blob/main/mercury-multiorg-mcp/CLAUDE.md).
+[CLAUDE.md](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/main/CLAUDE.md).
 The filename is historical; its requirements apply to any agent working on
 this package. Read it before changing code here. In short:
 
@@ -13,8 +13,8 @@ this package. Read it before changing code here. In short:
   Mercury requires an explicit `entity` and identifies it in its successful
   result. `list_entities` and `server_info` require no entity argument.
 - Live Mercury docs (https://docs.mercury.com/llms.txt) beat the brief.
-- Run `gitleaks git --no-banner --redact .` from the monorepo root before
-  declaring any change done.
+- Run `gitleaks git --no-banner --redact .` from this repository's root (so
+  its `.gitleaks.toml` applies) before declaring any change done.
 
 This is an MCP server for clients that support local stdio (see README.md).
 The `.mcp.json` here is an example project-discovery configuration; client

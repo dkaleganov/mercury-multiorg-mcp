@@ -112,7 +112,7 @@ def test_readme_security_model_rows():
 
 def test_readme_hygiene_sentence_keeps_both_exceptions():
     assert "This release passed a full-history gitleaks scan." in README
-    assert "maintainer's own name appears in the package `authors` metadata and the monorepo README" in README
+    assert "maintainer's own name appears in the package `authors` metadata (approved by the repository owner)" in README  # v0.1.4: no monorepo README here
     assert "replaced with an obviously fake value in the next commit" in README
     assert "absent from every tagged file tree but remains in their ancestry" in README
     assert "gitleaks runs on the full history before every release" not in README
@@ -132,8 +132,8 @@ def test_readme_client_section():
     assert "### Gemini CLI (`~/.gemini/settings.json` or `.gemini/settings.json`)" in README
     vscode = re.search(r"### VS Code \(`\.vscode/mcp\.json`\).*?```json(.*?)```", README)
     assert vscode and '"servers": {' in vscode.group(1) and '"type": "stdio"' in vscode.group(1) and "mcpServers" not in vscode.group(1)
-    # the same command and arguments in every snippet (v0.1.3: the pinned PyPI release in all six client snippets)
-    args = re.findall(r'"mercury-multiorg-mcp@0\.1\.3", "--entities", "/private/path/entities\.yaml"', README)
+    # the same command and arguments in every snippet (v0.1.3: the pinned PyPI release in all six client snippets; v0.1.4 bump)
+    args = re.findall(r'"mercury-multiorg-mcp@0\.1\.4", "--entities", "/private/path/entities\.yaml"', README)
     assert len(args) == 6
     assert '"--from", "git+https://' not in README  # the git+SHA form lives only under "From source / pinned commit"
 
@@ -176,12 +176,12 @@ def test_keepalive_doc_rows():
 
 
 def test_agents_and_changelog_rows():
-    assert "The build brief and history are in [CLAUDE.md](https://github.com/dkaleganov/personal-ai-systems/blob/main/mercury-multiorg-mcp/CLAUDE.md). The filename is historical; its requirements apply to any agent working on this package." in AGENTS
+    assert "The build brief and history are in [CLAUDE.md](https://github.com/dkaleganov/mercury-multiorg-mcp/blob/main/CLAUDE.md). The filename is historical; its requirements apply to any agent working on this package." in AGENTS
     assert "This is an MCP server for clients that support local stdio (see README.md). The `.mcp.json` here is an example project-discovery configuration; client discovery rules vary." in AGENTS
     assert "](CLAUDE.md)" not in AGENTS and "one client's convention" not in AGENTS
     assert "two new majors and six minors" in CHANGELOG and "two new majors, four minors" not in CHANGELOG
     assert "## 0.1.2 (2026-09-13)" in CHANGELOG and "no runtime changes" in CHANGELOG
-    assert __version__ == "0.1.3" and "Version 0.1.3" in README  # bumped by the v0.1.3 packaging release
+    assert __version__ == "0.1.4" and "Version 0.1.4" in README  # bumped by the v0.1.4 repository move
 
 
 def test_server_docstring_points_to_public_docs(mcp_client_sync=None):

@@ -5,7 +5,8 @@ description the registry reads, (b) that README.md has no relative links,
 because PyPI renders it out of context, and that its repository links point
 at this release's tag, (c) the pinned PyPI form in every client snippet, each
 parsed as JSON or TOML, and (d) server.json agreeing with pyproject.toml and
-with the command-line contract.
+with the command-line contract. v0.1.4 moved the package to its own
+repository; the repository, tag, and version pins below follow it.
 """
 
 from __future__ import annotations
@@ -29,8 +30,8 @@ VERSION = PROJECT["version"]
 SERVER_JSON = ROOT / "server.json"
 SERVER_NAME = "io.github.dkaleganov/mercury-multiorg-mcp"
 SCHEMA_URL = "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json"
-REPO = "https://github.com/dkaleganov/personal-ai-systems"
-TAG_BASE = f"{REPO}/blob/mercury-v{VERSION}/mercury-multiorg-mcp/"
+REPO = "https://github.com/dkaleganov/mercury-multiorg-mcp"
+TAG_BASE = f"{REPO}/blob/v{VERSION}/"
 
 # server.json is tracked in git but deliberately not shipped in the sdist; CLAUDE.md is not shipped either.
 needs_server_json = pytest.mark.skipif(not SERVER_JSON.is_file(), reason="server.json not present (sdist)")
@@ -47,7 +48,7 @@ def _head() -> str:
 
 
 def test_version_is_consistent():
-    assert VERSION == "0.1.3" == __version__
+    assert VERSION == "0.1.4" == __version__
     assert f"Version {VERSION}" in README
 
 
@@ -65,7 +66,7 @@ def test_readme_disclaimer_near_the_top():
 def test_pyproject_description_and_urls():
     assert PROJECT["description"].startswith("Unofficial") and len(PROJECT["description"]) <= 200
     assert PROJECT["urls"] == {
-        "Homepage": f"{REPO}/tree/main/mercury-multiorg-mcp",
+        "Homepage": REPO,
         "Source": REPO,
         "Documentation": f"{TAG_BASE}docs/tools.md",
         "Changelog": f"{TAG_BASE}CHANGELOG.md",
@@ -106,7 +107,8 @@ def test_every_pinned_install_uses_the_project_version():
     assert set(re.findall(r"mercury-multiorg-mcp==(\d[\w.+-]*\w)", README)) == {VERSION}
     assert f"uvx mercury-multiorg-mcp@{VERSION} --entities /private/path/entities.yaml" in README
     assert "### From source / pinned commit" in README
-    assert "git+https://github.com/dkaleganov/personal-ai-systems@<FULL_COMMIT_SHA>#subdirectory=mercury-multiorg-mcp" in README
+    assert f"uvx --from 'git+{REPO}@<FULL_COMMIT_SHA>' \\\n  mercury-multiorg-mcp --entities /private/path/entities.yaml" in README
+    assert f"git clone {REPO}.git" in README
 
 
 def test_client_snippets_parse_and_run_the_pinned_pypi_release():
@@ -130,7 +132,7 @@ def test_server_json_matches_pyproject():
     assert data["name"] == SERVER_NAME
     assert data["version"] == VERSION
     assert data["description"].startswith("Unofficial") and len(data["description"]) <= 100  # schema maxLength
-    assert data["repository"] == {"url": REPO, "source": "github", "subfolder": "mercury-multiorg-mcp"}
+    assert data["repository"] == {"url": REPO, "source": "github"}  # v0.1.4: its own repository, no subfolder
     assert len(data["packages"]) == 1
     package = data["packages"][0]
     assert package["registryType"] == "pypi"

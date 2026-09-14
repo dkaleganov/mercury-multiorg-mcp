@@ -1,5 +1,4 @@
-# Tripwires repeated locally so this package stays safe if ever split
-# out of the monorepo. Real config must never exist here, even ignored.
+# Tripwires. Real config must never exist in this working copy, even ignored.
 .env
 .env.*
 !.env.example
