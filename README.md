@@ -384,8 +384,8 @@ rows the walk dropped). Full field-by-field reference:
 | `list_webhooks` | `entity` | webhook endpoints: id, `url_fingerprint`, status, `enabled`, event types, filter paths (never the secret or any part of the receiver URL) |
 
 `start` / `end` on `list_transactions` filter on `createdAt` (`YYYY-MM-DD` or
-ISO 8601). The Mercury dashboard displays `postedAt`, so a date range may
-differ slightly from the UI.
+ISO 8601). The Mercury dashboard may display `postedAt`, so a date range
+may differ from the UI.
 
 ### Returns for the Phase 1 and 2 tools
 
@@ -400,7 +400,7 @@ list_transactions           entity, filters, count, truncated, duplicates_droppe
                             amount, status, kind, createdAt, postedAt, estimatedDeliveryDate, failedAt,
                             reasonForFailure, counterpartyId, counterpartyName, counterpartyNickname,
                             bankDescription, externalMemo, note, mercuryCategory,
-                            categoryData {id, name, visibleForCardSpend, visibleForOther, visibleForReimbursements},
+                            categoryData {id, name, visibleForCardSpend, visibleForOther, visibleForReimbursements} | null,
                             merchant {id, category, categoryCode, currency, amount}, checkNumber, cardId,
                             currencyExchangeInfo {convertedFromAmount, convertedFromCurrency, convertedToAmount,
                             convertedToCurrency, exchangeRate, feeAmount, feePercentage, feeTransactionId},
@@ -480,7 +480,7 @@ here, and says so in `docs/tools.md`.
 
 Counts only completed money movement (status `sent`) with an outgoing
 amount, attributed to the calendar year by **`postedAt` in UTC** (the date
-the dashboard shows). The API is queried with `postedStart` / `postedEnd`
+the dashboard may show). The API is queried with `postedStart` / `postedEnd`
 padded by one day on each side; rows outside the year are dropped
 client-side and counted under `excluded_summary.outside_year`. Every page
 of the year is walked; a walk that cannot complete is an error, never a

@@ -101,7 +101,7 @@ two document tools exist only with `--allow-documents`.
 | `list_transactions` | Transaction rows for the organization | `reportable_totals` for 1099 totals; `list_treasury_transactions` for a treasury ledger; `list_events` for recent changes |
 | `reportable_totals` | Per-recipient 1099 totals for one tax year | `list_transactions` for rows; `list_tax_docs` for W-9 coverage |
 | `list_recipients` | Payees the organization pays | `list_customers` for invoice customers; `list_tax_docs` for their tax forms |
-| `list_tax_docs` | Which recipients have a W-9 or W-8 on file | `list_recipients` for recipient details; `list_treasury_statements` for treasury tax forms |
+| `list_tax_docs` | Recipients' tax-form attachments (type can be unknown) and recipients with none | `list_recipients` for recipient details; `list_treasury_statements` for treasury tax forms |
 | `get_org` | Legal name, DBAs, `einLast4` from Mercury | `list_entities` for registry keys and display names |
 | `list_statements` | Statement ids and periods, checking or savings | `list_treasury_statements` for treasury; `get_statement_pdf` (when enabled) for the document |
 | `get_statement_pdf` | The statement document, unredacted | `list_statements` for ids and masked metadata |
@@ -111,7 +111,7 @@ two document tools exist only with `--allow-documents`.
 | `list_credit_accounts` | Credit accounts and balances | `list_accounts` for checking and savings; `list_cards` for cards |
 | `list_cards` | Finding or filtering cards | `get_card` with a known id; `list_merchants` for lock targets |
 | `get_card` | One card by id | `list_cards` to find it |
-| `list_categories` | Custom expense category ids and names | `list_transactions`, whose rows carry `categoryData` |
+| `list_categories` | Custom expense category ids and names | `list_transactions` for a row's own `categoryData`, when present (it can be null) |
 | `list_merchants` | Priority merchants for card locks | `list_transactions` for a transaction's own `merchant` |
 | `list_customers` | Invoice customers (money in) | `list_recipients` for payees (money out) |
 | `list_invoices` | Finding or filtering invoices | `get_invoice` for line items; `list_invoice_attachments` for files |
@@ -156,7 +156,7 @@ Excluded: `accountNumber` (masked), `routingNumber`, `canSendRealTimePayments`.
 ### `list_transactions(entity, account_id?, start?, end?, search?, limit=100)`
 
 `start` / `end` filter on `createdAt` (YYYY-MM-DD or ISO 8601). The
-dashboard shows `postedAt`. `limit` 1–5000. Rows come in Mercury API
+dashboard may show `postedAt`. `limit` 1–5000. Rows come in Mercury API
 `desc` order (no sort key is documented).
 
 ```text
@@ -359,7 +359,7 @@ uuid) but the docs do not promise it.
 
 ### `list_credit_accounts(entity)`
 
-One unpaginated `GET /credit`; every credit account is returned.
+Unpaginated `GET /credit`; every credit account is returned.
 
 ```text
 entity, count
@@ -452,15 +452,17 @@ and caps as `get_statement_pdf`, with `invoice_id` in the metadata and
 `mercury://<entity>/invoices/<id>.pdf` as the resource URI. The document
 is verbatim and unredacted. Mercury's docs disagree on the path parameter
 (the reference page says the invoice uuid, the invoice schema says the
-public `slug`), so the id is tried first and, on a 404, the invoice's slug
-is used internally. The invoice id you pass appears in the success
-metadata and in the resource URI (`mercury://<entity>/invoices/<id>.pdf`);
-the slug never appears anywhere, and ids in error text are masked to
-`{id}` by the endpoint label.
+public `slug`), so the id is tried first; on a 404 the invoice is fetched
+and its slug is tried only if it is a path-safe string (otherwise the
+original 404 is raised; an invoice fetch error propagates). The invoice id
+you pass appears in the success metadata and in the resource URI
+(`mercury://<entity>/invoices/<id>.pdf`); the slug is not returned as a
+structured field (the PDF bytes are verbatim), and ids in error text are
+masked to `{id}` by the endpoint label.
 
 ### `list_invoice_attachments(entity, invoice_id)`
 
-One unpaginated request; every attachment on the invoice is returned.
+Unpaginated; every attachment on the invoice is returned.
 
 ```text
 entity, invoice_id, count

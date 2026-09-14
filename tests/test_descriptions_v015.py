@@ -281,3 +281,61 @@ def test_h_the_table_routes_only_to_real_tools():
         referenced |= set(re.findall(r"`([a-z][a-z_]*_[a-z_]+)`", row))
     assert referenced, section[:200]
     assert referenced <= ALL26, sorted(referenced - ALL26)
+
+
+# ---------------------------------------------------------------------------
+# fix-up: qualified claims (no runtime changes)
+# ---------------------------------------------------------------------------
+
+# A bare request-count claim ("one request", "one unpaginated `GET /credit`
+# request") is not literally true: the client retries eligible failures. A
+# sentence may count requests only if it also mentions retries.
+COUNT_RE = re.compile(
+    r"\b(?:one|single)\s+(?:unpaginated\s+)?(?:`[^`]*`\s*)?(?:request|GET)\b|\b(?:one|single)\s+(?:unpaginated\s+)?`GET\b",
+    re.IGNORECASE,
+)
+
+
+def _sentences(text: str) -> list[str]:
+    return re.split(r"(?<=\.)\s+", flat(text))
+
+
+def _docs_choosing_rows() -> list[str]:
+    text = (ROOT / "docs" / "tools.md").read_text(encoding="utf-8")
+    section = text.split("## Choosing a tool\n", 1)[1].split("\n## ", 1)[0]
+    rows = re.findall(r"^\| `[a-z_]+` \|.*\|$", section, re.M)
+    assert len(rows) == 26, len(rows)
+    return rows
+
+
+async def test_i_no_unconditional_categorydata_presence_claim(mcp_client: Client, default_client: Client):
+    qualified = re.compile(r"when present|absent|null")
+    texts = list(_docs_choosing_rows())
+    for client in (mcp_client, default_client):
+        for name, tool in sorted((await _tools(client)).items()):
+            assert "already carries" not in flat(tool.description), name
+            texts.append(tool.description)
+    checked = 0
+    for text in texts:
+        for sentence in _sentences(text):
+            if "categoryData" in sentence:
+                checked += 1
+                assert qualified.search(sentence), sentence
+    assert checked >= 2, checked  # the list_categories description and its docs row
+
+
+async def test_ii_no_bare_request_count_claim(mcp_client: Client, default_client: Client):
+    texts = [(ROOT / "docs" / "tools.md").read_text(encoding="utf-8")]
+    for client in (mcp_client, default_client):
+        for name, tool in sorted((await _tools(client)).items()):
+            texts.append(tool.description)
+            texts.extend(_field_descriptions(tool).values())
+    for text in texts:
+        for sentence in _sentences(text):
+            if COUNT_RE.search(sentence):
+                assert "retr" in sentence, sentence
+    # the pattern really catches the wording this fix-up removed
+    assert COUNT_RE.search("Takes only `entity`; one `GET /organization` request.")
+    assert COUNT_RE.search("one unpaginated `GET /credit` request returns every credit account.")
+    assert COUNT_RE.search("One unpaginated request; every attachment on the invoice is returned.")
+    assert COUNT_RE.search("Unpaginated `GET /credit`; every credit account is returned.") is None

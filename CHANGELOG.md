@@ -15,13 +15,18 @@ identical to 0.1.4, and the server and keepalive logic is unchanged.
   filter forces a full walk, how `limit` interacts with a filter, where an id
   comes from). Behaviour sentences state only what the code proves: full-list
   tools walk every page, `list_credit_accounts` and `list_invoice_attachments`
-  make one unpaginated request, and `list_entities` and `server_info` make no
-  Mercury request. Masking and untrusted-text sentences are unchanged. Two
+  are unpaginated, and `list_entities` and `server_info` make no Mercury
+  request. Masking and untrusted-text sentences are unchanged. Two
   `Field(description=...)` strings gained a missing id source: `list_cards`
-  `account_id` (from `list_accounts`) and `get_card` `card_id` (also the
-  `cardId` on a `list_transactions` row); the shared `entity` description now
-  says the key is the `entity` value, not `display_name`. A default-tool
-  description names a document tool only followed by "(when enabled)".
+  `account_id` (from `list_accounts`) and `get_card` `card_id` (also a
+  non-null `cardId` on a `list_transactions` row); the shared `entity`
+  description now says to pass the exact `entity` key from `list_entities`,
+  not its `display_name`. A default-tool description names a document tool
+  only followed by "(when enabled)". Descriptions were then tightened and
+  qualified: repeated arity and value lists the schema already carries were
+  removed, and the claims about `categoryData` presence, request counts,
+  deleted customers, dashboard dates, and the invoice PDF slug fallback
+  state only what the code and Mercury's docs support.
 - `docs/tools.md`: a "Choosing a tool" table with one row per tool (all 26)
   matching the usage sentences, plus per-tool notes for the unpaginated and
   no-request tools and for `list_cards` `account_id`.
@@ -37,9 +42,11 @@ identical to 0.1.4, and the server and keepalive logic is unchanged.
   model or client vendor name appears in any description, Field description,
   or the server instructions, that the required phrases stay, that the length
   budget holds, that every `*_id` argument names its source tool, that the
-  docs "Choosing a tool" table lists each tool once, and that names,
-  annotations, description-stripped input schemas, and live tool results are
-  byte-identical to the committed 0.1.4 snapshots
+  docs "Choosing a tool" table lists each tool once, that no description or
+  docs row claims `categoryData` is always present, that no description,
+  Field description, or docs sentence makes a bare request-count claim, and
+  that names, annotations, description-stripped input schemas, and live tool
+  results are byte-identical to the committed 0.1.4 snapshots
   (`tests/fixtures/tool_contract_v014.json`,
   `tests/fixtures/tool_results_v014.json`). Version pins in
   `tests/test_packaging_v013.py`, `tests/test_external_review_v012.py`, and
