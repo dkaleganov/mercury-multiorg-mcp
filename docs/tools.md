@@ -88,15 +88,53 @@ a `conflicting duplicate rows` error. Where the API has no server-side filter fo
 documented argument, the tool says so below and filters client-side;
 windowed feeds are walked in full (there is no early stop).
 
+## Choosing a tool
+
+One row per tool, matching the usage sentence in each tool description. The
+two document tools exist only with `--allow-documents`.
+
+| Tool | Use it for | Use instead |
+| --- | --- | --- |
+| `list_entities` | Entity keys, display names, whether a token is set | `server_info` for the build; `get_org` for the legal profile |
+| `server_info` | Version, API base, whether the PDF tools are registered | `list_entities` for entity keys |
+| `list_accounts` | Checking and savings accounts, balances, account ids | `list_credit_accounts` for credit; `list_treasury` for treasury |
+| `list_transactions` | Transaction rows for the organization | `reportable_totals` for 1099 totals; `list_treasury_transactions` for a treasury ledger; `list_events` for recent changes |
+| `reportable_totals` | Per-recipient 1099 totals for one tax year | `list_transactions` for rows; `list_tax_docs` for W-9 coverage |
+| `list_recipients` | Payees the organization pays | `list_customers` for invoice customers; `list_tax_docs` for their tax forms |
+| `list_tax_docs` | Which recipients have a W-9 or W-8 on file | `list_recipients` for recipient details; `list_treasury_statements` for treasury tax forms |
+| `get_org` | Legal name, DBAs, `einLast4` from Mercury | `list_entities` for registry keys and display names |
+| `list_statements` | Statement ids and periods, checking or savings | `list_treasury_statements` for treasury; `get_statement_pdf` (when enabled) for the document |
+| `get_statement_pdf` | The statement document, unredacted | `list_statements` for ids and masked metadata |
+| `list_treasury` | Treasury accounts, balances, treasury ids | `list_accounts` for checking and savings |
+| `list_treasury_transactions` | One treasury account's ledger | `list_transactions` for bank-account transactions |
+| `list_treasury_statements` | Treasury statements and tax documents | `list_statements` for depository statements; `list_tax_docs` for recipients' forms |
+| `list_credit_accounts` | Credit accounts and balances | `list_accounts` for checking and savings; `list_cards` for cards |
+| `list_cards` | Finding or filtering cards | `get_card` with a known id; `list_merchants` for lock targets |
+| `get_card` | One card by id | `list_cards` to find it |
+| `list_categories` | Custom expense category ids and names | `list_transactions`, whose rows carry `categoryData` |
+| `list_merchants` | Priority merchants for card locks | `list_transactions` for a transaction's own `merchant` |
+| `list_customers` | Invoice customers (money in) | `list_recipients` for payees (money out) |
+| `list_invoices` | Finding or filtering invoices | `get_invoice` for line items; `list_invoice_attachments` for files |
+| `get_invoice` | One invoice with line items and service period | `list_invoices` to find it; `get_invoice_pdf` (when enabled) for the document |
+| `get_invoice_pdf` | The invoice document, unredacted | `get_invoice` for structured fields |
+| `list_invoice_attachments` | Files attached to one invoice | `get_invoice` for the invoice; `list_tax_docs` for payee tax forms |
+| `list_users` | Team members and their roles | `list_recipients` for payees; `list_customers` for customers |
+| `list_events` | What changed in the last 90 days | `list_transactions` for the transactions; `list_webhooks` for subscriptions |
+| `list_webhooks` | Webhook configuration | `list_events` for the events themselves |
+
 ## Registry
 
 ### `list_entities()`
+
+Reads the registry only; no Mercury request.
 
 ```text
 entities[]   entity, display_name, token_configured (bool; never the value)
 ```
 
 ### `server_info()`
+
+Reports the running build; no Mercury request.
 
 ```text
 name, version, api_base, entity_count, entities_with_token, transport ("stdio"), read_only (true),
@@ -321,6 +359,8 @@ uuid) but the docs do not promise it.
 
 ### `list_credit_accounts(entity)`
 
+One unpaginated `GET /credit`; every credit account is returned.
+
 ```text
 entity, count
 credit_accounts[]  id, status, availableBalance, currentBalance, createdAt
@@ -331,8 +371,9 @@ credit_accounts[]  id, status, availableBalance, currentBalance, createdAt
 ### `list_cards(entity, account_id?, status?, limit=100)`
 
 `status` is one of active, frozen, cancelled, inactive, expired, suspended
-(any other value is a 400 from Mercury, surfaced as an error). `limit`
-1–1000.
+(any other value is a 400 from Mercury, surfaced as an error). `account_id`
+takes a single account id here, although Mercury's own filter accepts
+several. `limit` 1–1000, applied after both filters.
 
 ```text
 entity, filters {account_id, status, limit}, count, truncated, duplicates_dropped
@@ -418,6 +459,8 @@ the slug never appears anywhere, and ids in error text are masked to
 `{id}` by the endpoint label.
 
 ### `list_invoice_attachments(entity, invoice_id)`
+
+One unpaginated request; every attachment on the invoice is returned.
 
 ```text
 entity, invoice_id, count

@@ -1,0 +1,1818 @@
+{
+  "default_24": [
+    {
+      "name": "get_card",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "card_id": {
+            "title": "Card Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity",
+          "card_id"
+        ],
+        "title": "get_cardArguments"
+      }
+    },
+    {
+      "name": "get_invoice",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "invoice_id": {
+            "title": "Invoice Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity",
+          "invoice_id"
+        ],
+        "title": "get_invoiceArguments"
+      }
+    },
+    {
+      "name": "get_org",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "get_orgArguments"
+      }
+    },
+    {
+      "name": "list_accounts",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_accountsArguments"
+      }
+    },
+    {
+      "name": "list_cards",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Account Id"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "enum": [
+              "active",
+              "frozen",
+              "cancelled",
+              "inactive",
+              "expired",
+              "suspended"
+            ],
+            "title": "Status"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 1000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_cardsArguments"
+      }
+    },
+    {
+      "name": "list_categories",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_categoriesArguments"
+      }
+    },
+    {
+      "name": "list_credit_accounts",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_credit_accountsArguments"
+      }
+    },
+    {
+      "name": "list_customers",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_customersArguments"
+      }
+    },
+    {
+      "name": "list_entities",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "title": "list_entitiesArguments"
+      }
+    },
+    {
+      "name": "list_events",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "since": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Since"
+          },
+          "resource_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "enum": [
+              "transaction",
+              "checkingAccount",
+              "savingsAccount",
+              "treasuryAccount",
+              "investmentAccount",
+              "creditAccount"
+            ],
+            "title": "Resource Type"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_eventsArguments"
+      }
+    },
+    {
+      "name": "list_invoice_attachments",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "invoice_id": {
+            "title": "Invoice Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity",
+          "invoice_id"
+        ],
+        "title": "list_invoice_attachmentsArguments"
+      }
+    },
+    {
+      "name": "list_invoices",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "enum": [
+              "Unpaid",
+              "Paid",
+              "Cancelled",
+              "Processing"
+            ],
+            "title": "Status"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "End"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_invoicesArguments"
+      }
+    },
+    {
+      "name": "list_merchants",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "search": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Search"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 1000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_merchantsArguments"
+      }
+    },
+    {
+      "name": "list_recipients",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_recipientsArguments"
+      }
+    },
+    {
+      "name": "list_statements",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "account_id": {
+            "title": "Account Id",
+            "type": "string"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "End"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 1000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity",
+          "account_id"
+        ],
+        "title": "list_statementsArguments"
+      }
+    },
+    {
+      "name": "list_tax_docs",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_tax_docsArguments"
+      }
+    },
+    {
+      "name": "list_transactions",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Account Id"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "End"
+          },
+          "search": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Search"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_transactionsArguments"
+      }
+    },
+    {
+      "name": "list_treasury",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_treasuryArguments"
+      }
+    },
+    {
+      "name": "list_treasury_statements",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "treasury_id": {
+            "title": "Treasury Id",
+            "type": "string"
+          },
+          "document_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "enum": [
+              "MonthlyStatement",
+              "TradeConfirmation",
+              "1099",
+              "1099R",
+              "1042S",
+              "5498",
+              "5498ESA",
+              "1099Q",
+              "FMV",
+              "SDIRA"
+            ],
+            "title": "Document Type"
+          }
+        },
+        "required": [
+          "entity",
+          "treasury_id"
+        ],
+        "title": "list_treasury_statementsArguments"
+      }
+    },
+    {
+      "name": "list_treasury_transactions",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "treasury_id": {
+            "title": "Treasury Id",
+            "type": "string"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "End"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity",
+          "treasury_id"
+        ],
+        "title": "list_treasury_transactionsArguments"
+      }
+    },
+    {
+      "name": "list_users",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_usersArguments"
+      }
+    },
+    {
+      "name": "list_webhooks",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_webhooksArguments"
+      }
+    },
+    {
+      "name": "reportable_totals",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "year": {
+            "maximum": 2100,
+            "minimum": 2000,
+            "title": "Year",
+            "type": "integer"
+          },
+          "threshold": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Threshold"
+          }
+        },
+        "required": [
+          "entity",
+          "year"
+        ],
+        "title": "reportable_totalsArguments"
+      }
+    },
+    {
+      "name": "server_info",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "title": "server_infoArguments"
+      }
+    }
+  ],
+  "documents_26": [
+    {
+      "name": "get_card",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "card_id": {
+            "title": "Card Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity",
+          "card_id"
+        ],
+        "title": "get_cardArguments"
+      }
+    },
+    {
+      "name": "get_invoice",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "invoice_id": {
+            "title": "Invoice Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity",
+          "invoice_id"
+        ],
+        "title": "get_invoiceArguments"
+      }
+    },
+    {
+      "name": "get_invoice_pdf",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "invoice_id": {
+            "title": "Invoice Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity",
+          "invoice_id"
+        ],
+        "title": "get_invoice_pdfArguments"
+      }
+    },
+    {
+      "name": "get_org",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "get_orgArguments"
+      }
+    },
+    {
+      "name": "get_statement_pdf",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "statement_id": {
+            "title": "Statement Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity",
+          "statement_id"
+        ],
+        "title": "get_statement_pdfArguments"
+      }
+    },
+    {
+      "name": "list_accounts",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_accountsArguments"
+      }
+    },
+    {
+      "name": "list_cards",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Account Id"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "enum": [
+              "active",
+              "frozen",
+              "cancelled",
+              "inactive",
+              "expired",
+              "suspended"
+            ],
+            "title": "Status"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 1000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_cardsArguments"
+      }
+    },
+    {
+      "name": "list_categories",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_categoriesArguments"
+      }
+    },
+    {
+      "name": "list_credit_accounts",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_credit_accountsArguments"
+      }
+    },
+    {
+      "name": "list_customers",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_customersArguments"
+      }
+    },
+    {
+      "name": "list_entities",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "title": "list_entitiesArguments"
+      }
+    },
+    {
+      "name": "list_events",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "since": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Since"
+          },
+          "resource_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "enum": [
+              "transaction",
+              "checkingAccount",
+              "savingsAccount",
+              "treasuryAccount",
+              "investmentAccount",
+              "creditAccount"
+            ],
+            "title": "Resource Type"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_eventsArguments"
+      }
+    },
+    {
+      "name": "list_invoice_attachments",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "invoice_id": {
+            "title": "Invoice Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity",
+          "invoice_id"
+        ],
+        "title": "list_invoice_attachmentsArguments"
+      }
+    },
+    {
+      "name": "list_invoices",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "enum": [
+              "Unpaid",
+              "Paid",
+              "Cancelled",
+              "Processing"
+            ],
+            "title": "Status"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "End"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_invoicesArguments"
+      }
+    },
+    {
+      "name": "list_merchants",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "search": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Search"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 1000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_merchantsArguments"
+      }
+    },
+    {
+      "name": "list_recipients",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_recipientsArguments"
+      }
+    },
+    {
+      "name": "list_statements",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "account_id": {
+            "title": "Account Id",
+            "type": "string"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "End"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 1000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity",
+          "account_id"
+        ],
+        "title": "list_statementsArguments"
+      }
+    },
+    {
+      "name": "list_tax_docs",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_tax_docsArguments"
+      }
+    },
+    {
+      "name": "list_transactions",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Account Id"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "End"
+          },
+          "search": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Search"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_transactionsArguments"
+      }
+    },
+    {
+      "name": "list_treasury",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_treasuryArguments"
+      }
+    },
+    {
+      "name": "list_treasury_statements",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "treasury_id": {
+            "title": "Treasury Id",
+            "type": "string"
+          },
+          "document_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "enum": [
+              "MonthlyStatement",
+              "TradeConfirmation",
+              "1099",
+              "1099R",
+              "1042S",
+              "5498",
+              "5498ESA",
+              "1099Q",
+              "FMV",
+              "SDIRA"
+            ],
+            "title": "Document Type"
+          }
+        },
+        "required": [
+          "entity",
+          "treasury_id"
+        ],
+        "title": "list_treasury_statementsArguments"
+      }
+    },
+    {
+      "name": "list_treasury_transactions",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "treasury_id": {
+            "title": "Treasury Id",
+            "type": "string"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "format": "date",
+            "title": "End"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity",
+          "treasury_id"
+        ],
+        "title": "list_treasury_transactionsArguments"
+      }
+    },
+    {
+      "name": "list_users",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_usersArguments"
+      }
+    },
+    {
+      "name": "list_webhooks",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity"
+        ],
+        "title": "list_webhooksArguments"
+      }
+    },
+    {
+      "name": "reportable_totals",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "title": "Entity",
+            "type": "string"
+          },
+          "year": {
+            "maximum": 2100,
+            "minimum": 2000,
+            "title": "Year",
+            "type": "integer"
+          },
+          "threshold": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Threshold"
+          }
+        },
+        "required": [
+          "entity",
+          "year"
+        ],
+        "title": "reportable_totalsArguments"
+      }
+    },
+    {
+      "name": "server_info",
+      "annotations": {
+        "title": null,
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "title": "server_infoArguments"
+      }
+    }
+  ]
+}
