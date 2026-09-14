@@ -1,5 +1,50 @@
 # Changelog
 
+## 0.1.5 (2026-09-14)
+
+v0.1.5 — tool descriptions gained usage guidance naming sibling tools and
+parameter semantics. No runtime changes: tool names, arguments, types,
+defaults, bounds, schema metadata, annotations, outputs, and error text are
+identical to 0.1.4, and the server and keepalive logic is unchanged.
+
+- Version 0.1.5.
+- `src/mercury_multiorg_mcp/server.py`: every tool docstring now carries a
+  "Use this ..." sentence naming at least one sibling tool and the condition
+  that routes to it, plus the parameter facts the input schema cannot hold
+  (which field a date filters on, what an unknown enum value does, when a
+  filter forces a full walk, how `limit` interacts with a filter, where an id
+  comes from). Behaviour sentences state only what the code proves: full-list
+  tools walk every page, `list_credit_accounts` and `list_invoice_attachments`
+  make one unpaginated request, and `list_entities` and `server_info` make no
+  Mercury request. Masking and untrusted-text sentences are unchanged. Two
+  `Field(description=...)` strings gained a missing id source: `list_cards`
+  `account_id` (from `list_accounts`) and `get_card` `card_id` (also the
+  `cardId` on a `list_transactions` row); the shared `entity` description now
+  says the key is the `entity` value, not `display_name`. A default-tool
+  description names a document tool only followed by "(when enabled)".
+- `docs/tools.md`: a "Choosing a tool" table with one row per tool (all 26)
+  matching the usage sentences, plus per-tool notes for the unpaginated and
+  no-request tools and for `list_cards` `account_id`.
+- README, `pyproject.toml` (Documentation and Changelog URLs), `server.json`,
+  and `uv.lock`: current-version pins move to 0.1.5. Historical 0.1.4
+  mentions (this changelog's 0.1.4 entry, the README repository-history note,
+  the project brief's v0.1.4 entry) are unchanged.
+- CLAUDE.md: phase entry 8 records the decision.
+- Tests: `tests/test_descriptions_v015.py` (new) pins, over both the 24-tool
+  and 26-tool servers, that every description has a usage sentence naming a
+  registered sibling, that every tool name mentioned is registered (a
+  document tool only with "(when enabled)" on the 24-tool server), that no AI
+  model or client vendor name appears in any description, Field description,
+  or the server instructions, that the required phrases stay, that the length
+  budget holds, that every `*_id` argument names its source tool, that the
+  docs "Choosing a tool" table lists each tool once, and that names,
+  annotations, description-stripped input schemas, and live tool results are
+  byte-identical to the committed 0.1.4 snapshots
+  (`tests/fixtures/tool_contract_v014.json`,
+  `tests/fixtures/tool_results_v014.json`). Version pins in
+  `tests/test_packaging_v013.py`, `tests/test_external_review_v012.py`, and
+  `tests/test_external_review.py` follow the bump.
+
 ## 0.1.4 (2026-09-13)
 
 v0.1.4 — moved to a dedicated repository (https://github.com/dkaleganov/mercury-multiorg-mcp) with full history; metadata, links and docs only; no runtime changes

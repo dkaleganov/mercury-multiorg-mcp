@@ -462,6 +462,17 @@ not use the third-party standalone `fastmcp` package — official SDK only.
    Metadata, links, docs, and tests only; no runtime changes. The root
    `.gitleaks.toml` is a copy of the monorepo's. Tests in
    `tests/test_standalone_v014.py`.
+8. v0.1.5 (2026-09-14): a wording-only release. Decision: tool
+   descriptions are what an agent reads when choosing a tool, so each one
+   now states when to use it and which sibling to use instead, and carries
+   the parameter facts the input schema cannot hold (which field a date
+   filters on, what an unknown enum value does, when a filter forces a full
+   walk, where an id comes from). Behaviour sentences state only what the
+   code proves. No runtime changes: names, arguments, types, defaults,
+   bounds, schema metadata, annotations, outputs, and error text are
+   identical to v0.1.4, pinned by a committed contract-and-results snapshot
+   of the v0.1.4 tool surface. docs/tools.md gained a "Choosing a tool"
+   table. Tests in `tests/test_descriptions_v015.py`.
 
 ## Definition of done for public
 

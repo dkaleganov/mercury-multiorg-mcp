@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mercury-multiorg-mcp"
-version = "0.1.4"
+version = "0.1.5"
 description = "Unofficial read-only MCP server exposing multiple Mercury banking organizations to one AI session, routed by explicit entity key."
 readme = "README.md"
 license = "MIT"
@@ -38,8 +38,8 @@ mercury-multiorg-mcp-keepalive = "mercury_multiorg_mcp.keepalive:main"
 [project.urls]
 Homepage = "https://github.com/dkaleganov/mercury-multiorg-mcp"
 Source = "https://github.com/dkaleganov/mercury-multiorg-mcp"
-Documentation = "https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/docs/tools.md"
-Changelog = "https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.4/CHANGELOG.md"
+Documentation = "https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.5/docs/tools.md"
+Changelog = "https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.5/CHANGELOG.md"
 Issues = "https://github.com/dkaleganov/mercury-multiorg-mcp/issues"
 
 [dependency-groups]
