@@ -350,7 +350,7 @@ def build_server(
 
     @mcp.tool(annotations=READ_ONLY)
     async def list_accounts(entity: Entity) -> dict[str, Any]:
-        """List one organization's Mercury accounts with available and current balances; credit and treasury have their own tools.
+        """List one organization's Mercury accounts with available and current balances.
 
         Use this for account ids (`list_transactions`, `list_statements`, and
         `list_cards` take them); use `list_credit_accounts` for credit accounts
@@ -386,7 +386,7 @@ def build_server(
         ] = None,
         limit: Annotated[
             int,
-            Field(ge=1, le=5000, description="Maximum transactions to return (Mercury API desc order)."),
+            Field(ge=1, le=5000, description="Maximum transactions to return."),
         ] = 100,
     ) -> dict[str, Any]:
         """List one organization's transactions in Mercury API `desc` order, optionally filtered.
@@ -888,7 +888,7 @@ def build_server(
 
     @mcp.tool(annotations=READ_ONLY)
     async def list_customers(entity: Entity) -> dict[str, Any]:
-        """List accounts-receivable customers: id, name, email, and `deletedAt` for soft-deleted ones. No addresses.
+        """List accounts-receivable customers: id, name, and email. No addresses.
 
         Use this for invoice customers, whose ids are the `customerId` on
         `list_invoices` rows; use `list_recipients` for payees the

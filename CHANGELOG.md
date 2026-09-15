@@ -46,7 +46,7 @@ identical to 0.1.4, and the server and keepalive logic is unchanged.
   docs row claims `categoryData` is always present, that no description,
   Field description, or docs sentence makes a bare request-count claim, and
   that names, annotations, description-stripped input schemas, and live tool
-  results are byte-identical to the committed 0.1.4 snapshots
+  results are equal to the committed 0.1.4 snapshots
   (`tests/fixtures/tool_contract_v014.json`,
   `tests/fixtures/tool_results_v014.json`). Version pins in
   `tests/test_packaging_v013.py`, `tests/test_external_review_v012.py`, and
