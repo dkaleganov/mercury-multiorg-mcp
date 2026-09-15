@@ -3,12 +3,11 @@
 ## What this is
 
 An MCP server exposing read-only tools across multiple Mercury organizations
-at once. Mercury's official hosted MCP and its API token model are
-effectively single-organization per connection. This server holds one
-read-only API token per org. Every tool that accesses Mercury requires an
-explicit entity key and identifies it in its successful result
-(`list_entities` and `server_info` take no entity argument), so one AI
-session can see a whole multi-entity setup.
+at once. A Mercury API token is created from inside a single organization.
+This server holds one read-only API token per org. Every tool that accesses
+Mercury requires an explicit entity key and identifies it in its successful
+result (`list_entities` and `server_info` take no entity argument), so one
+AI session can see a whole multi-entity setup.
 
 This package lives in its own public repository,
 https://github.com/dkaleganov/mercury-multiorg-mcp. It is public from its
@@ -456,9 +455,9 @@ not use the third-party standalone `fastmcp` package — official SDK only.
    README.md). Tests in `tests/test_external_review_v012.py`.
 7. v0.1.4 (2026-09-13): moved to a dedicated repository,
    https://github.com/dkaleganov/mercury-multiorg-mcp, with full history.
-   Decision: until v0.1.3 the package lived in the `personal-ai-systems`
-   monorepo; it moved to a dedicated repository at v0.1.4 so the server
-   can have its own listings (Glama, awesome lists) and a focused home.
+   Decision: until v0.1.3 the package lived in a larger monorepo; it
+   moved to a dedicated repository at v0.1.4 so the server can have its own
+   listings (Glama, awesome lists) and a focused home.
    Metadata, links, docs, and tests only; no runtime changes. The root
    `.gitleaks.toml` is a copy of the monorepo's. Tests in
    `tests/test_standalone_v014.py`.
@@ -473,6 +472,18 @@ not use the third-party standalone `fastmcp` package — official SDK only.
    identical to v0.1.4, pinned by a committed contract-and-results snapshot
    of the v0.1.4 tool surface. docs/tools.md gained a "Choosing a tool"
    table. Tests in `tests/test_descriptions_v015.py`.
+9. v0.1.6 (2026-09-15): a docs-and-metadata release. Decision: public text
+   states only what this package does and what Mercury's docs support. The
+   opening of README.md and of this brief no longer describes how Mercury's
+   own MCP server scopes organizations; it says only that a Mercury API
+   token is created from inside a single organization, as Mercury's token
+   setup docs show. The client-setup heading is scoped to local stdio
+   clients, matching its body. The README repository-history note, the
+   changelog, and entry 7 above no longer name or link the older monorepo.
+   No runtime changes: `src/` is identical to v0.1.5. Tests in
+   `tests/test_claims_v016.py`; `tests/test_standalone_v014.py` now asserts
+   that the older repository is named nowhere and assembles its name at
+   runtime, so the literal is absent from shipped files.
 
 ## Definition of done for public
 

@@ -48,7 +48,7 @@ def _head() -> str:
 
 
 def test_version_is_consistent():
-    assert VERSION == "0.1.5" == __version__
+    assert VERSION == "0.1.6" == __version__
     assert f"Version {VERSION}" in README
 
 

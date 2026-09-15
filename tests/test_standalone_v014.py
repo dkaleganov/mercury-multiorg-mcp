@@ -1,11 +1,14 @@
 """v0.1.4: the package moved to its own repository (metadata, links, docs; no runtime changes).
 
-Pins (a) that README.md, docs/, pyproject.toml, and server.json name the old
-monorepo only inside README's repository-history note, as a link or as plain
-text, (b) that git installs use this repository with no ``#subdirectory=``,
-(c) that the history note records the move and the tag rename, and (d) that
-the agent briefs use standalone framing and link here. Every file read here is
-inside this repository.
+Pins (a) that the old monorepo is named nowhere, as a link or as plain text,
+in README.md (including its repository-history note, since v0.1.6), docs/,
+pyproject.toml, server.json, AGENTS.md, CHANGELOG.md, the tests, or the
+project brief, (b) that git installs use this repository with no
+``#subdirectory=``, (c) that the history note records the move and the tag
+rename, and (d) that the agent briefs use standalone framing and link here.
+The old monorepo's name is assembled at runtime, so the literal is absent from
+shipped files and ``__pycache__``. Every file read here is inside this
+repository.
 """
 
 from __future__ import annotations
@@ -18,8 +21,14 @@ import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 REPO = "https://github.com/dkaleganov/mercury-multiorg-mcp"
-OLD = "personal-ai-systems"
-OLD_REPO = "https://github.com/dkaleganov/personal-ai-systems"
+
+
+def _old_repo_slug(prefix: str = "personal", middle: str = "ai", suffix: str = "systems") -> str:
+    """Build the old monorepo's name at runtime (same pattern as ``_synthetic_token`` in test_repo_hygiene.py)."""
+    return "-".join((prefix, middle, suffix))
+
+
+OLD = _old_repo_slug()
 VERSION = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
 README = (ROOT / "README.md").read_text(encoding="utf-8")
 HISTORY_MARKER = "**Repository history.**"
@@ -52,13 +61,12 @@ def test_the_checked_file_set_is_complete_in_a_checkout():
     assert {"README.md", "pyproject.toml", "server.json", "docs/tools.md", "docs/keepalive.md"} <= names
 
 
-def test_no_link_or_mention_of_the_monorepo_outside_the_history_note():
-    for path in _checked_files():
+def test_no_link_or_mention_of_the_monorepo_anywhere():
+    extra = [ROOT / "AGENTS.md", ROOT / "CHANGELOG.md", *sorted((ROOT / "tests").rglob("*.py"))]
+    for path in (*_checked_files(), *extra):
         text = path.read_text(encoding="utf-8")
-        if path.name == "README.md":
-            text = text.replace(_history_note(), "")
         assert [u for u in URL.findall(text) if OLD in u] == [], path.name
-        assert OLD not in text, path.name  # not even as plain text
+        assert OLD not in text, path.name  # not even as plain text, and not inside the history note
 
 
 def test_history_note_records_the_move_and_the_tag_rename():
@@ -66,8 +74,8 @@ def test_history_note_records_the_move_and_the_tag_rename():
     assert "through v0.1.3" in note and "moved to this repository at v0.1.4" in note and "history preserved" in note
     assert "`mercury-v0.1.x`" in note and "`v0.1.x`" in note and "`vX.Y.Z` from now on" in note
     assert "SHAs differ" in note
-    old_links = [u for u in URL.findall(note) if OLD in u]
-    assert old_links == [OLD_REPO], old_links  # the monorepo root only: never a tag, path, or install source in it
+    assert [u for u in URL.findall(note) if OLD in u] == []  # the note names no repository and links nowhere
+    assert OLD not in note
 
 
 def test_readme_outside_the_history_note_has_no_monorepo_packaging():
@@ -99,7 +107,7 @@ def test_agents_md_links_here_and_runs_gitleaks_from_this_root():
 def test_brief_uses_standalone_framing_and_records_the_move():
     brief = (ROOT / "CLAUDE.md").read_text(encoding="utf-8")
     flat = _flat(brief)
-    assert [u for u in URL.findall(brief) if OLD in u] == []
+    assert [u for u in URL.findall(brief) if OLD in u] == [] and OLD not in brief
     assert "#subdirectory" not in brief and "sibling folders" not in brief
     assert "## Monorepo packaging rules" not in brief and "## Packaging rules" in brief
     assert "public monorepo" not in brief and "clone the monorepo" not in brief

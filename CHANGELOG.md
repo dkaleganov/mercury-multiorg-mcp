@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.1.6 (2026-09-15)
+
+v0.1.6: a docs-and-metadata release. No runtime changes: `src/` is identical
+to 0.1.5, so tool names, arguments, schemas, descriptions, outputs, and error
+text are unchanged.
+
+- Version 0.1.6.
+- README and CLAUDE.md: the opening no longer describes how Mercury's own MCP
+  server and API tokens scope organizations. It now states only what
+  Mercury's token setup docs support: a Mercury API token is created from
+  inside a single organization.
+- README: the client-setup heading "Works with any MCP client" is now "Works
+  with local stdio MCP clients", matching the section body, and "Any other
+  client" is now "Any other stdio client".
+- README: the repository-history note no longer names or links the older
+  repository. It still records the move at v0.1.4, the preserved history,
+  and the tag rename. The 0.1.4 entry below and the project brief's v0.1.4
+  entry drop the name the same way.
+- README, `pyproject.toml` (Documentation and Changelog URLs), `server.json`,
+  and `uv.lock`: current-version pins move to 0.1.6. Historical 0.1.5
+  mentions are unchanged.
+- CLAUDE.md: phase entry 9 records the decision.
+- Tests: `tests/test_standalone_v014.py` now asserts that the older
+  repository is named nowhere, including the history note, and assembles
+  that name at runtime so the literal is absent from shipped files;
+  `tests/test_external_review_v011.py` pins the new heading;
+  `tests/test_claims_v016.py` (new) asserts that README.md and CLAUDE.md make
+  no claim about how Mercury's MCP server scopes organizations and keep the
+  token sentence. Version pins in `tests/test_packaging_v013.py`,
+  `tests/test_external_review_v012.py`, and `tests/test_external_review.py`
+  follow the bump.
+
 ## 0.1.5 (2026-09-14)
 
 v0.1.5 — tool descriptions gained usage guidance naming sibling tools and
@@ -60,7 +92,7 @@ Server and keepalive code are identical to 0.1.3.
 
 - Version 0.1.4.
 - Tag rename for earlier releases: 0.1.0 through 0.1.3 were tagged
-  `mercury-v0.1.0` … `mercury-v0.1.3` in the personal-ai-systems monorepo
+  `mercury-v0.1.0` … `mercury-v0.1.3` in the monorepo this package came from
   and are tagged `v0.1.0` … `v0.1.3` here. The history was rewritten to
   this repository's layout, so commit SHAs differ from the monorepo's; pin
   SHAs from this repository. The entries below keep the tag names as they

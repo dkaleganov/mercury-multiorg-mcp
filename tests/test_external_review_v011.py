@@ -544,7 +544,7 @@ def test_docs_corrections_and_client_neutral_wording():
     agents = flat(ROOT / "AGENTS.md")
     assert "two commits later" not in readme and "two commits later" not in changelog and "in the next commit" in readme
     assert "8 or more characters" in readme
-    assert "Works with any MCP client" in readme
+    assert "Works with local stdio MCP clients" in readme
     for client_name in ("Codex", "Cursor", "Windsurf", "VS Code", "Gemini CLI", "Claude Desktop", "Claude Code"):
         assert client_name in readme, client_name
     assert "[mcp_servers.mercury-multiorg]" in readme
