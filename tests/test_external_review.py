@@ -798,7 +798,7 @@ def test_hardening_readme_and_docs_carry_the_new_contract():
     changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
     assert "](CLAUDE.md)" not in readme and "`CLAUDE.md`" not in readme  # the sdist omits it; link to GitHub instead
     # v0.1.3: pinned to the release tag, since PyPI renders this README out of context (v0.1.4: its own repository)
-    assert "https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.6/CLAUDE.md" in readme
+    assert "https://github.com/dkaleganov/mercury-multiorg-mcp/blob/v0.1.7/CLAUDE.md" in readme
     assert "/blob/main/" not in readme
     for needle in ("--allow-documents", "unredacted", "history note", "url_fingerprint", "allowlisted at every level", "--allow-custom-api-base", "wire bytes"):
         assert needle in readme.lower(), needle

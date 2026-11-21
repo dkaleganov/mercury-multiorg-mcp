@@ -484,6 +484,15 @@ not use the third-party standalone `fastmcp` package — official SDK only.
    `tests/test_claims_v016.py`; `tests/test_standalone_v014.py` now asserts
    that the older repository is named nowhere and assembles its name at
    runtime, so the literal is absent from shipped files.
+10. v0.1.7 (2026-11-21): a metadata release. Decision: every tool carries a
+    short title, on the tool and in its annotations, because Anthropic's
+    connector review criteria require a title on every tool. The read-only
+    hints, names, input and output schemas, outputs, and error text are
+    unchanged; the one description change is the `list_transactions` note
+    on third-party text, which now matches `reportable_totals` and
+    `get_invoice`. Tests in `tests/test_titles_v017.py`; test g in
+    `tests/test_descriptions_v015.py` sets titles aside when it compares
+    hints and schemas with the v0.1.4 snapshot.
 
 ## Definition of done for public
 

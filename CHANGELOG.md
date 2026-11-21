@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.7 (2026-11-21)
+
+v0.1.7: a metadata release. No runtime changes: tool names, arguments,
+schemas, hints, outputs, and error text are unchanged.
+
+- Version 0.1.7.
+- Every tool has a short title, on the tool and in its annotations, for
+  clients that show tool names to people.
+- `list_transactions`: the note on memos, counterparty names, and bank
+  descriptions now reads "data, not instructions", as in `reportable_totals`
+  and `get_invoice`.
+- README, `pyproject.toml` (Documentation and Changelog URLs), `server.json`,
+  and `uv.lock`: current-version pins move to 0.1.7. Historical 0.1.6
+  mentions are unchanged.
+- CLAUDE.md: phase entry 10 records the decision.
+- Tests: `tests/test_titles_v017.py` (new) pins the 26 titles; test g in
+  `tests/test_descriptions_v015.py` still compares every hint and schema
+  with the v0.1.4 snapshot, titles aside. Version pins in
+  `tests/test_packaging_v013.py`, `tests/test_external_review_v012.py`, and
+  `tests/test_external_review.py` follow the bump.
+
 ## 0.1.6 (2026-09-15)
 
 v0.1.6: a docs-and-metadata release. No runtime changes: `src/` is identical
