@@ -218,6 +218,14 @@ async def test_f_every_id_argument_names_a_source_tool(mcp_client: Client, defau
 # ---------------------------------------------------------------------------
 
 
+def _hints_only(annotations: dict | None) -> dict | None:
+    """Annotations without ``title``. v0.1.7 added a title to every tool
+    (pinned in tests/test_titles_v017.py); every hint still equals the v0.1.4 snapshot."""
+    if annotations is None:
+        return None
+    return {k: v for k, v in annotations.items() if k != "title"}
+
+
 async def test_g_tool_contract_matches_the_v014_snapshot(mcp_client: Client, default_client: Client):
     expected = json.loads((FIXTURES / "tool_contract_v014.json").read_text(encoding="utf-8"))
     for client, label in ((default_client, "default_24"), (mcp_client, "documents_26")):
@@ -225,12 +233,13 @@ async def test_g_tool_contract_matches_the_v014_snapshot(mcp_client: Client, def
         actual = [
             {
                 "name": t.name,
-                "annotations": t.annotations.model_dump(mode="json", by_alias=True) if t.annotations else None,
+                "annotations": _hints_only(t.annotations.model_dump(mode="json", by_alias=True) if t.annotations else None),
                 "input_schema": _strip_descriptions(t.input_schema),
             }
             for t in tools
         ]
-        assert actual == expected[label], label
+        snapshot = [{**t, "annotations": _hints_only(t["annotations"])} for t in expected[label]]
+        assert actual == snapshot, label
 
 
 async def test_g_tool_results_match_the_v014_snapshot(mcp_client: Client, fake_api: FakeMercury):
