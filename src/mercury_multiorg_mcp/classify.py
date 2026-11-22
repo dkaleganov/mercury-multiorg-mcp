@@ -9,9 +9,9 @@ the result.
 Classification table (live ``TransactionKind`` enum, docs.mercury.com
 ``/reference/listtransactions``, fetched 2026-09-12). The live docs define
 no semantics for the enum values; the table below only asserts what the
-kind name itself supports. The same table is reproduced in CLAUDE.md, in
-the ``reportable_totals`` tool docstring, and in README.md; keep the four
-in sync.
+kind name itself supports. The same table is reproduced in CLAUDE.md,
+README.md, and docs/tools.md, which the ``reportable_totals`` tool
+docstring points to; keep the four in sync.
 
 INCLUDE (settled, outgoing amount only; counted in ``reportable_total``):
   outgoingPayment        payment to a recipient. Method from ``details``:

@@ -48,7 +48,7 @@ _DESC_ORDER_TOOLS = ("list_transactions", "list_statements", "list_treasury_tran
 _DESC_ORDER_PHRASE = "Mercury API `desc` order"
 
 _LENGTH_LIMIT = 900
-_LENGTH_LIMITS = {"reportable_totals": 3300}
+_LENGTH_LIMITS = {"reportable_totals": 1900}  # names its four result keys; the classification table is in docs/tools.md
 _FIRST_LINE_LIMIT = 120
 
 
